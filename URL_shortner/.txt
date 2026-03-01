@@ -1,0 +1,14 @@
+code
+
+https://myverylongwebsite.com/product/ironman/70.3/goa/register
+
+short
+
+short.ly/abc12
+
+
+User sends long URL
+→ Generate short ID
+→ Store mapping
+→ When short URL accessed
+→ Redirect to original URL
