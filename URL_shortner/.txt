@@ -12,3 +12,13 @@ User sends long URL
 → Store mapping
 → When short URL accessed
 → Redirect to original URL
+
+
+code 
+
+http://localhost:4000/shorten?url=https://google.com
+
+
+revert - 
+
+Short URL: http://localhost:4000/abc12
