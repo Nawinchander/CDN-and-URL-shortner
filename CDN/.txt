@@ -1,0 +1,3 @@
+User → CDN Server → Check Cache
+                 → If exists → return file
+                 → If not → Fetch from Origin Server → Cache → Return
