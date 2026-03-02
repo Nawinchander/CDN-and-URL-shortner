@@ -1,0 +1,43 @@
+We need:
+
+Unique short codes
+
+Fast lookup
+
+Scalable storage
+
+
+
+User
+  ↓
+Load Balancer
+  ↓
+App Servers (multiple)
+  ↓
+Redis (cache)
+  ↓
+Database (MySQL / MongoDB)
+
+
+How It Works
+🔹 Create Short URL
+
+User sends long URL
+
+Generate unique ID (Base62 encoding)
+
+Store in DB
+
+Also store in Redis
+
+🔹 Redirect Flow
+
+User opens short URL
+
+Check Redis first
+
+If not found → DB
+
+Store in Redis
+
+Redirect

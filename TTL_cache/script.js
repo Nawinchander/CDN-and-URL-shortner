@@ -18,3 +18,14 @@ async function getDataWithTTL(key) {
 }
 
 getDataWithTTL("product1");
+
+
+// First request → Save in Redis for 10 seconds
+
+// Within 10 sec → From Redis
+
+// After 10 sec → Redis auto deletes
+
+// Next request → DB again
+
+// That’s TTL-based CDN behavior.
