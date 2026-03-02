@@ -1,0 +1,9 @@
+Redis — an in-memory key-value database.
+
+It is mainly used for:
+
+Caching
+
+Session storage
+
+Fast lookups
