@@ -1,0 +1,2 @@
+Cache valid for 10 seconds
+After 10 sec → auto delete
