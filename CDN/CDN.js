@@ -49,3 +49,48 @@ class OriginServer {
 
 module.exports = new OriginServer();
 
+// services/EdgeServer.js
+const LRUCache = require("../cache/LRUCache");
+const origin = require("./OriginServer");
+
+class EdgeServer {
+  constructor(name) {
+    this.name = name;
+    this.cache = new LRUCache(2);
+  }
+
+  handleRequest(path) {
+    console.log(`\n[${this.name}] Request for ${path}`);
+
+    let data = this.cache.get(path);
+
+    if (data) {
+      console.log("Cache HIT");
+      return data;
+    }
+
+    console.log("Cache MISS");
+
+    data = origin.fetch(path);
+    this.cache.set(path, data);
+
+    return data;
+  }
+}
+
+module.exports = EdgeServer;
+
+// services/DNSRouter.js
+class DNSRouter {
+  constructor(edges) {
+    this.edges = edges;
+  }
+
+  route(userRegion) {
+    // Simplified geo-routing
+    return this.edges[userRegion] || this.edges["default"];
+  }
+}
+
+module.exports = DNSRouter;
+
