@@ -26,7 +26,30 @@ Edge:
 If cache hit → return
 If miss → fetch from origin → cache → return
 
+FAANG-Level Optimizations
+1. Cache Strategies
+TTL-based expiry
+LRU eviction
+Cache invalidation via API
+2. Consistent Hashing
+Distribute content across servers
+Avoid massive reshuffling
+3. Compression
+Gzip / Brotli
+4. Protocol Optimizations
+HTTP/2, HTTP/3 (QUIC)
+5. Edge Computing
+Run logic at edge (auth, A/B testing)
 
+Scaling
+Add more PoPs (horizontal scaling)
+Use load balancing inside PoPs
+Multi-region replication
+
+Trade-offs
+Freshness vs latency
+Cost vs performance
+Consistency vs availability (CAP)
 
 
 
