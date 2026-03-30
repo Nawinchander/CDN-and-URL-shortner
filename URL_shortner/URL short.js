@@ -19,3 +19,41 @@ function encodeBase62(num) {
 
 module.exports = { encodeBase62 };
 
+// cache/RedisMock.js
+class RedisMock {
+  constructor() {
+    this.store = new Map();
+  }
+
+  get(key) {
+    return this.store.get(key) || null;
+  }
+
+  set(key, value) {
+    this.store.set(key, value);
+  }
+}
+
+module.exports = new RedisMock();
+
+
+// db/DatabaseMock.js
+class DatabaseMock {
+  constructor() {
+    this.data = new Map();
+    this.id = 0;
+  }
+
+  insert(longUrl) {
+    this.id++;
+    this.data.set(this.id, longUrl);
+    return this.id;
+  }
+
+  findById(id) {
+    return this.data.get(id);
+  }
+}
+
+module.exports = new DatabaseMock();
+
