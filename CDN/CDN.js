@@ -94,3 +94,24 @@ class DNSRouter {
 
 module.exports = DNSRouter;
 
+// app.js
+const EdgeServer = require("./services/EdgeServer");
+const DNSRouter = require("./services/DNSRouter");
+
+// Simulate global edge servers
+const edges = {
+  india: new EdgeServer("India Edge"),
+  us: new EdgeServer("US Edge"),
+  default: new EdgeServer("Default Edge")
+};
+
+const router = new DNSRouter(edges);
+
+// User from India
+const edge = router.route("india");
+
+console.log(edge.handleRequest("/img1")); // MISS
+console.log(edge.handleRequest("/img1")); // HIT
+console.log(edge.handleRequest("/img2")); // MISS
+console.log(edge.handleRequest("/video")); // Eviction happens
+console.log(edge.handleRequest("/img1")); // MISS again (evicted)
