@@ -57,3 +57,66 @@ class DatabaseMock {
 
 module.exports = new DatabaseMock();
 
+// services/UrlShortenerService.js
+const db = require("../db/DatabaseMock");
+const cache = require("../cache/RedisMock");
+const { encodeBase62 } = require("../utils/base62");
+
+class UrlShortenerService {
+  shorten(longUrl) {
+    const id = db.insert(longUrl);
+    const shortKey = encodeBase62(id);
+
+    cache.set(shortKey, longUrl); // cache write-through
+    return `short.ly/${shortKey}`;
+  }
+
+  redirect(shortKey) {
+    // 🔥 Cache-first (critical FAANG pattern)
+    let longUrl = cache.get(shortKey);
+    if (longUrl) {
+      console.log("Cache HIT");
+      return longUrl;
+    }
+
+    console.log("Cache MISS");
+
+    // Decode base62 → ID
+    const id = this.decodeBase62(shortKey);
+    longUrl = db.findById(id);
+
+    if (longUrl) {
+      cache.set(shortKey, longUrl);
+    }
+
+    return longUrl || "404 Not Found";
+  }
+
+  decodeBase62(str) {
+    const BASE62 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let num = 0;
+
+    for (let char of str) {
+      num = num * 62 + BASE62.indexOf(char);
+    }
+
+    return num;
+  }
+}
+
+module.exports = new UrlShortenerService();
+
+// app.js
+const urlService = require("./services/UrlShortenerService");
+
+const short = urlService.shorten("https://google.com");
+console.log("Short URL:", short);
+
+const key = short.split("/")[1];
+
+// First call → MISS
+console.log(urlService.redirect(key));
+
+// Second call → HIT
+console.log(urlService.redirect(key));
+
