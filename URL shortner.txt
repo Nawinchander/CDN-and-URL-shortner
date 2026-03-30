@@ -37,3 +37,48 @@ Table: URL
 - long_url
 - created_at
 - expiry
+
+Read Flow (Redirect)
+User hits short.ly/abc
+Lookup in cache:
+Hit → redirect
+Miss → DB → cache → redirect
+
+🔹 Write Flow (Shorten)
+User submits long URL
+Generate unique ID
+Encode → short key
+Store in DB
+Return short URL
+
+
+🔹 FAANG-Level Optimizations
+1. Caching (VERY IMPORTANT)
+Use Redis
+Cache popular URLs
+2. Read Heavy System
+100:1 read/write ratio
+3. Database Sharding
+Hash-based partitioning
+4. Bloom Filters
+Quickly check existence
+5. Rate Limiting
+Prevent abuse/spam
+
+🔹 Scaling Strategy
+Stateless app servers
+Horizontal scaling
+CDN for redirects (yes!)
+
+🔹 Bottlenecks & Solutions
+Problem	Solution
+DB overload	Cache + replicas
+Hot keys	Replication
+Collision	Retry with new key
+
+🔹 Advanced Features (FAANG touch)
+Custom aliases (/nawin)
+Expiry links
+Analytics dashboard
+QR code generation
+
