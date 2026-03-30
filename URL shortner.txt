@@ -1,0 +1,39 @@
+2. URL Shortener – FAANG Level Design
+
+Think:
+Bitly, TinyURL
+
+🔹 Requirements
+Functional:
+Shorten long URL → short URL
+Redirect short → original
+Analytics (clicks)
+Non-Functional:
+Low latency (redirect < 50ms)
+High availability
+Massive scale (billions of URLs)
+🔹 High-Level Architecture
+Client → API → App Server → DB → Cache
+                    ↓
+                 Key Generator
+🔹 Core Components
+1. Key Generation (CRITICAL)
+
+Options:
+
+a) Base62 EncodingID: 125 → "cb"
+b) Counter + Encoding
+Auto-increment ID
+Convert to Base62
+c) Hashing (MD5/SHA)
+Risk: collisions
+
+👉 FAANG prefers: Counter + Base62
+
+🔹 Database Design
+Table: URL
+- id (PK)
+- short_key
+- long_url
+- created_at
+- expiry
