@@ -1,0 +1,32 @@
+1. CDN (Content Delivery Network) – FAANG Level Design
+🔹 What is a CDN?
+
+A CDN is a globally distributed system of servers that delivers content (images, videos, JS, HTML) closer to users to reduce latency.
+
+Think:
+Cloudflare, Akamai, Amazon CloudFront
+
+🔹 High-Level Architecture
+User → DNS → Edge Server → Cache → Origin Server
+Components:
+DNS Routing
+Geo-based routing (user hits nearest edge)
+Uses Anycast IP
+Edge Servers (PoPs)
+Cache static content
+Located globally
+Origin Server
+Source of truth (S3 / backend server)
+Cache Layer
+In-memory (Redis) + disk cache
+🔹 Request Flow
+User requests image.jpg
+DNS routes to nearest edge
+Edge:
+If cache hit → return
+If miss → fetch from origin → cache → return
+
+
+
+
+
